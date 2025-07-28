@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.yifan.geekgen.mapper.ClassTaskMapper">
+
+    <select id="getById"
+            parameterType="long"
+            resultType="cn.yifan.geekgen.pojo.entity.ClassTask"
+    >
+        SELECT id, type, title, data, class_name, class_id, teacher_id, student_count, finish_count, created_at, updated_at, is_deleted FROM class_task WHERE id = #{id}
+    </select>
+
+    <select id="getByClassId"
+            parameterType="long"
+            resultType="cn.yifan.geekgen.pojo.entity.ClassTask"
+    >
+        SELECT id, type, title, data, class_name, class_id, teacher_id, student_count, finish_count, created_at, updated_at, is_deleted FROM class_task WHERE class_id = #{classId}
+    </select>
+
+    <select id="getByTeacherId"
+            parameterType="long"
+            resultType="cn.yifan.geekgen.pojo.entity.ClassTask"
+    >
+        SELECT id, type, title, data, class_name, class_id, teacher_id, student_count, finish_count, created_at, updated_at, is_deleted FROM class_task WHERE teacher_id = #{teacherId} ORDER BY created_at DESC
+    </select>
+
+    <insert id="insert"
+            parameterType="cn.yifan.geekgen.pojo.entity.ClassTask"
+            useGeneratedKeys="true"
+            keyProperty="id"
+    >
+        INSERT INTO class_task (type, title, data, class_name, class_id, teacher_id, student_count, finish_count)
+        VALUES (#{type}, #{title}, #{data}, #{className}, #{classId}, #{teacherId}, #{studentCount}, #{finishCount})
+    </insert>
+
+    <update id="update"
+            parameterType="cn.yifan.geekgen.pojo.entity.ClassTask"
+    >
+        UPDATE class_task
+        <set>
+            <if test="studentCount != null">
+                student_count = #{studentCount},
+            </if>
+            <if test="finishCount != null">
+                finish_count = #{finishCount},
+            </if>
+            <if test="className != null">
+                class_name = #{className},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+</mapper>

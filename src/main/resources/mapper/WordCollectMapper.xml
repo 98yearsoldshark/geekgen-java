@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.yifan.geekgen.mapper.WordCollectMapper">
+
+    <select id="getById"
+            parameterType="long"
+            resultType="cn.yifan.geekgen.pojo.entity.WordCollect"
+    >
+        SELECT id, word, data, user_id, created_at, updated_at, is_deleted FROM word_collect WHERE id = #{id}
+    </select>
+
+    <select id="getByUserId"
+            parameterType="long"
+            resultType="cn.yifan.geekgen.pojo.entity.WordCollect"
+    >
+        SELECT id, word, data, user_id, created_at, updated_at, is_deleted FROM word_collect WHERE user_id = #{userId}
+    </select>
+
+    <select id="getByUserIdAndWord"
+            resultType="cn.yifan.geekgen.pojo.entity.WordCollect"
+    >
+        SELECT id, word, data, user_id, created_at, updated_at, is_deleted FROM word_collect WHERE user_id = #{userId} AND word = #{word}
+    </select>
+
+    <insert id="insert"
+            parameterType="cn.yifan.geekgen.pojo.entity.WordCollect"
+            useGeneratedKeys="true"
+            keyProperty="id"
+    >
+        INSERT INTO word_collect (word, data, user_id)
+        VALUES (#{word}, #{data}, #{userId})
+    </insert>
+
+    <update id="update"
+            parameterType="cn.yifan.geekgen.pojo.entity.WordCollect"
+    >
+        UPDATE word_collect
+        <set>
+            <if test="data != null">
+                data = #{data},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+</mapper>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.yifan.geekgen.mapper.ClassMapper">
+
+    <select id="getById"
+            parameterType="long"
+            resultType="cn.yifan.geekgen.pojo.entity.Class"
+    >
+        SELECT id, code, name, teacher_id, teacher_name, student_count, created_at, updated_at, is_deleted FROM class WHERE id = #{id}
+    </select>
+
+    <select id="getByCode"
+            parameterType="string"
+            resultType="cn.yifan.geekgen.pojo.entity.Class"
+    >
+        SELECT id, code, name, teacher_id, teacher_name, student_count, created_at, updated_at, is_deleted FROM class WHERE code = #{code}
+    </select>
+
+    <select id="getByName"
+            parameterType="string"
+            resultType="cn.yifan.geekgen.pojo.entity.Class"
+    >
+        SELECT id, code, name, teacher_id, teacher_name, student_count, created_at, updated_at, is_deleted FROM class WHERE name = #{name}
+    </select>
+
+    <select id="getByTeacherId"
+            parameterType="long"
+            resultType="cn.yifan.geekgen.pojo.entity.Class"
+    >
+        SELECT id, code, name, teacher_id, teacher_name, student_count, created_at, updated_at, is_deleted FROM class WHERE teacher_id = #{teacherId}
+    </select>
+
+    <insert id="insert"
+            parameterType="cn.yifan.geekgen.pojo.entity.Class"
+            useGeneratedKeys="true"
+            keyProperty="id"
+    >
+        INSERT INTO class (code, name, teacher_id, teacher_name, student_count)
+        VALUES (#{code}, #{name}, #{teacherId}, #{teacherName}, #{studentCount})
+    </insert>
+
+    <update id="update"
+            parameterType="cn.yifan.geekgen.pojo.entity.Class"
+    >
+        UPDATE class
+        <set>
+            <if test="teacherName != null">
+                teacher_name = #{teacherName},
+            </if>
+            <if test="studentCount != null">
+                student_count = #{studentCount},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+</mapper>

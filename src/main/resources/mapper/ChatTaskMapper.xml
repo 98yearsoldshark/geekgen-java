@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.yifan.geekgen.mapper.ChatTaskMapper">
+
+    <select id="getById"
+            parameterType="long"
+            resultType="cn.yifan.geekgen.pojo.entity.ChatTask"
+            useCache="false"
+    >
+        SELECT id, type, data, status, user_id, user_chat_message_id, assistant_chat_message_id, created_at, updated_at, is_deleted FROM chat_task WHERE id = #{id}
+    </select>
+
+    <select id="getByUserId"
+            parameterType="long"
+            resultType="cn.yifan.geekgen.pojo.entity.ChatTask"
+    >
+        SELECT id, type, data, status, user_id, user_chat_message_id, assistant_chat_message_id, created_at, updated_at, is_deleted FROM chat_task WHERE user_id = #{userId}
+    </select>
+
+    <insert id="insert"
+            parameterType="cn.yifan.geekgen.pojo.entity.ChatTask"
+            useGeneratedKeys="true"
+            keyProperty="id"
+    >
+        INSERT INTO chat_task (type, data, status, user_id)
+        VALUES (#{type}, #{data}, #{status}, #{userId})
+    </insert>
+
+    <update id="update"
+            parameterType="cn.yifan.geekgen.pojo.entity.ChatTask"
+    >
+        UPDATE chat_task
+        <set>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="userChatMessageId != null">
+                user_chat_message_id = #{userChatMessageId},
+            </if>
+            <if test="assistantChatMessageId != null">
+                assistant_chat_message_id = #{assistantChatMessageId},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+</mapper>

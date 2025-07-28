@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.yifan.geekgen.mapper.ArticleCollectMapper">
+
+    <select id="getById"
+            parameterType="long"
+            resultType="cn.yifan.geekgen.pojo.entity.ArticleCollect"
+    >
+        SELECT id, article_id, banner, title, subtitle, tags, text, highlight_positions, user_id, created_at, updated_at, is_deleted FROM article_collect WHERE id = #{id}
+    </select>
+
+    <select id="getByUserId"
+            parameterType="long"
+            resultType="cn.yifan.geekgen.pojo.entity.ArticleCollect"
+    >
+        SELECT id, article_id, banner, title, subtitle, tags, text, highlight_positions, user_id, created_at, updated_at, is_deleted FROM article_collect WHERE user_id = #{userId} ORDER BY created_at DESC
+    </select>
+
+    <select id="getByUserIdAndArticleId"
+            resultType="cn.yifan.geekgen.pojo.entity.ArticleCollect"
+    >
+        SELECT id, article_id, banner, title, subtitle, tags, text, highlight_positions, user_id, created_at, updated_at, is_deleted FROM article_collect WHERE user_id = #{userId} AND article_id = #{articleId}
+    </select>
+
+    <insert id="insert"
+            parameterType="cn.yifan.geekgen.pojo.entity.ArticleCollect"
+            useGeneratedKeys="true"
+            keyProperty="id"
+    >
+        INSERT INTO article_collect (article_id, banner, title, subtitle, tags, text, highlight_positions, user_id)
+        VALUES (#{articleId}, #{banner}, #{title}, #{subtitle}, #{tags}, #{text}, #{highlightPositions}, #{userId})
+    </insert>
+
+    <update id="update"
+            parameterType="cn.yifan.geekgen.pojo.entity.ArticleCollect"
+    >
+        UPDATE article_collect
+        <set>
+            <if test="highlightPositions != null">
+                highlight_positions = #{highlightPositions},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+</mapper>
